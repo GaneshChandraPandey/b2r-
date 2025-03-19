@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>B2R Technologies - Reimbursement Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="form.js"></script>
+<link rel="stylesheet" href="styles.css">
+
+
+</head>
+<body>
+
+<div class="container">
+    <!-- Print Button -->
+     <div  style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+    <button class="btn" onclick="window.print()">Print</button>
+</div>
+    <!-- Title -->
+    <h2 style="text-align: center;">B2R Technologies Pvt. Ltd.</h2>
+    <p style="text-align: center; font-weight: bold;">Local Conveyance & Mobile Reimbursement Form</p>
+
+    <!-- Form Header -->
+    <table>
+        <tr>
+            <th>Period From:</th>
+            <td><input type="date" required></td>
+            <th>Period To:</th>
+            <td><input type="date" required></td>
+            <th>Claim for the Month of:</th>
+            <td> 
+            <select required>
+                
+                    <option>January</option>
+                    <option>February</option>
+                    <option>March</option>
+                    <option>April</option>
+                    <option>May</option>
+                    <option>June</option>
+                    <option>July</option>
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+            </select>
+        </td>
+        </tr>
+        <tr>
+            <th>Emp Code:</th>
+            <td><input type="text" required></td>
+            <th>Emp Name:</th>
+            <td><input type="text" required></td>
+            <th>Account No:</th>
+            <td><input type="text" required></td>
+        </tr>
+        <tr>
+            <th>Center:</th>
+            <td>
+                <select required>
+                    <option>Orakhan</option>
+                    <option>Haldwani</option>
+                    <option>Dehradun</option>
+                    <option>Almora</option>
+                    <option>Pithoragarh</option>
+                </select>
+            </td>
+            <th>IFSC:</th>
+            <td colspan="3"><input type="text" required></td>
+        </tr>
+    </table>
+
+    <!-- 🚗 Travel Details -->
+    <h4>Travel Details</h4>
+    <table id="travelTable">
+        <tr>
+            <th>Date</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Purpose</th>
+            <th>Mode of Conv</th>
+            <th>Km</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+    </table>
+    <button onclick="addTravelRow()">Add Row</button>
+    <h3>Travel Total: ₹<span id="travelTotal">0</span></h3>
+
+ <!-- 🍱  Quarterly Reimbursement  Details -->
+ <h4>Quarterly Reimbursement Details</h4>
+ <table id="QuarterlyReimbursementTable">
+     <tr>
+         <th>Date</th>
+         <th>Purpose</th>
+         <th>Amount</th>
+         <th>Action</th>
+     </tr>
+ </table>
+ <button onclick="addQuarterlyReimbursementRow ()">Add Row</button>
+ <h3>QuarterlyReimbursement Total: ₹<span id="QuarterlyReimbursementTotal">0</span></h3>
+
+
+    <!-- 🍱 Meal Details -->
+    <h4>Meal Details</h4>
+    <table id="mealTable">
+        <tr>
+            <th>Date</th>
+            <th>Meal_Type</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+    </table>
+    <button onclick="addMealRow()">Add Row</button>
+    <h3>Meal Total: ₹<span id="mealTotal">0</span></h3>
+
+     <!-- 🍱 Mobile  Details -->
+     <h4>Mobile  Details</h4>
+     <table id="mobileTable">
+         <tr>
+             <th>Month</th>
+             <th>Purpose</th>
+             <th>Amount</th>
+             <th>Action</th>
+         </tr>
+     </table>
+     <button onclick="addMobileRow()">Add Row</button>
+     <h3>Mobile Total: ₹<span id="mobileTotal">0</span></h3>
+
+     
+    <!-- 💰 Grand Total -->
+    <h3>Grand Total: ₹<span id="grandTotal">0</span></h3>
+    <h3>Amount in Words: <span id="amountInWords"></span></h3>
+
+    <!-- ✅ Signature Section -->
+    <div class="signature-section">
+        <div>
+            Signature of Receiver: 
+            <select required>
+                <option value="">Select Day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+            </select>
+        </div>
+        <div>
+            Reviewed By: 
+            <select required>
+                <option value="">Select Day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+            </select>
+        </div>
+        <div>
+            Authorized By: 
+            <select required>
+                <option value="">Select Day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+            </select>
+        </div>
+    </div>
+   <!-- send mail -->
+    <div style="display: flex; justify-content: flex-end;">
+     
+    <button  class="btn" onclick="generatePDF() , sendEmail()">Download PDF</button>
+</div>
+</div>
+
+</body>
+</html>
